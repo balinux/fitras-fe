@@ -9,7 +9,6 @@ const isProtectedRoute = createRouteMatcher([
   // '/sign-up(.*)'
 
   '/'
-
 ])
 
 export default clerkMiddleware(async (auth, req) => {
