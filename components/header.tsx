@@ -2,6 +2,7 @@ import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
 import HeaderLogo from "./header-logo";
 import Navigation from "./navigation";
 import { Skeleton } from "./ui/skeleton";
+import WelcomeMessage from "./welcome-message";
 
 export default function Header() {
   return (
@@ -19,7 +20,7 @@ export default function Header() {
             <Skeleton className="w-8 h-8 rounded-full"/>
           </ClerkLoading>
         </div>
-        
+        <WelcomeMessage/>
       </div>
     </header>
   );
