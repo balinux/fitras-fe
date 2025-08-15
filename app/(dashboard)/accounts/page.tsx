@@ -1,8 +1,20 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import useNewAccountStore from "@/features/accounts/hooks/use-new-accout-hook";
+import { columns, Payment } from "@/app/(dashboard)/accounts/columns";
+import { DataTable } from "@/components/data-table";
+
+  const data:Payment[] = [
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "m@example.com",
+    },
+    // ...
+  ]
 
 export default function AccountsPage() {
     const { onOpen } = useNewAccountStore();
@@ -16,6 +28,9 @@ export default function AccountsPage() {
                         Add new
                     </Button>
                 </CardHeader>
+                <CardContent>
+                <DataTable columns={columns} data={data} />
+                </CardContent>
             </Card>
         </div>
     );
