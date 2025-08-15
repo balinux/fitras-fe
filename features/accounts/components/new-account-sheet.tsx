@@ -14,9 +14,13 @@ import useNewAccountStore from "@/features/accounts/hooks/use-new-accout-hook";
 import AccountForm from "@/features/accounts/components/account-form";
 import { insertAccountSchema } from "@/db/schema";
 import z from "zod";
+import { useCreateAccount } from "@/features/accounts/api/use-create-acount";
 
 export default function NewAccountSheet() {
   const { isOpen, onClose } = useNewAccountStore();
+
+  // react query
+  const mutation = useCreateAccount();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const formSchema = insertAccountSchema.pick({
@@ -26,7 +30,11 @@ export default function NewAccountSheet() {
   type formValues = z.infer<typeof formSchema>;
 
   const onSubmit = (values: formValues) => {
-    console.log(values);
+    mutation.mutate(values, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
   };
 
   return (
@@ -40,7 +48,7 @@ export default function NewAccountSheet() {
         </SheetHeader>
         <AccountForm
           onSubmit={onSubmit}
-          disabled={false}
+          disabled={mutation.isPending}
           defaultValue={{ name: "" }}
         />
         <SheetFooter>

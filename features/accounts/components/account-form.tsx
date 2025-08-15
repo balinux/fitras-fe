@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
+import { Loader2, Trash } from "lucide-react";
 
 const formSchema = insertAccountSchema.pick({
   name: true,
@@ -36,14 +36,13 @@ export default function AccountForm({
   onDelete,
   disabled,
 }: Props) {
-
   const form = useForm<formValues>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValue,
   });
 
   const handleSubmit = async (values: formValues) => {
-    onSubmit(values)
+    onSubmit(values);
   };
 
   const handleDelete = () => {
@@ -81,21 +80,22 @@ export default function AccountForm({
           type="submit"
           onClick={() => form.handleSubmit(handleSubmit)}
         >
+          {disabled && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {id ? "Save changes" : "Create account"}
         </Button>
 
         {!!id && (
           <Button
-          disabled={disabled}
-          type="button"
-          onClick={handleDelete}
-          variant="destructive"
-          className="w-full mt-5"
-        >
-          <Trash className="size-4 mr-2" />
-          Delete Account
-        </Button>
-      )}
+            disabled={disabled}
+            type="button"
+            onClick={handleDelete}
+            variant="destructive"
+            className="w-full mt-5"
+          >
+            <Trash className="size-4 mr-2" />
+            Delete Account
+          </Button>
+        )}
       </form>
     </Form>
   );
