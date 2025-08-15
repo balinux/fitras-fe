@@ -1,12 +1,11 @@
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
-import accounts  from "./accounts";
+import accounts from "./accounts";
 
 export const runtime = "edge";
 
 const app = new Hono().basePath("/api");
-
 
 //  define route
 const routes = app.route("/accounts", accounts);
