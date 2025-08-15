@@ -2,24 +2,23 @@ import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 import accounts from "./accounts";
-import { HTTPException } from "hono/http-exception";
 
 export const runtime = "edge";
 
 const app = new Hono().basePath("/api");
 
-// errorn  handler
-app.onError((err, c) => {
-  if (err instanceof HTTPException) {
-    return err.getResponse();
-  }
-  return c.json(
-    {
-      error: "internal server error",
-    },
-    500,
-  );
-});
+// // errorn  handler
+// app.onError((err, c) => {
+//   if (err instanceof HTTPException) {
+//     return err.getResponse();
+//   }
+//   return c.json(
+//     {
+//       error: "internal server error",
+//     },
+//     500,
+//   );
+// });
 
 //  define route
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
