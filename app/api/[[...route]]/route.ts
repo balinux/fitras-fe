@@ -8,6 +8,7 @@ export const runtime = "edge";
 const app = new Hono().basePath("/api");
 
 //  define route
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const routes = app.route("/accounts", accounts);
 
 app.get("/", clerkMiddleware(), (c) => {
