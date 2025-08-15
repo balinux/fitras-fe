@@ -14,13 +14,13 @@ export default function Header() {
             <Navigation />
           </div>
           <ClerkLoaded>
-            <UserButton/>
+            <UserButton />
           </ClerkLoaded>
           <ClerkLoading>
-            <Skeleton className="w-8 h-8 rounded-full"/>
+            <Skeleton className="w-8 h-8 rounded-full" />
           </ClerkLoading>
         </div>
-        <WelcomeMessage/>
+        <WelcomeMessage />
       </div>
     </header>
   );
