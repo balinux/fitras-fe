@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetAcounts } from "@/lib/accounts/api/use-get-account";
+import { useGetAcounts } from "@/features/accounts/api/use-get-account";
 
 export default function Home() {
   const { data: accounts, isLoading } = useGetAcounts();
