@@ -13,7 +13,12 @@ import { DataTable } from "@/components/data-table";
       status: "pending",
       email: "m@example.com",
     },
-    // ...
+    {
+      id: "728dd52f",
+      amount: 80,
+      status: "success",
+      email: "x@example.com",
+    }
   ]
 
 export default function AccountsPage() {
