@@ -1,11 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import useNewAccountStore from "@/features/accounts/hooks/use-new-accout-hook";
 import { columns } from "@/app/(dashboard)/accounts/columns";
 import { DataTable } from "@/components/data-table";
 import { useGetAcounts } from "@/features/accounts/api/use-get-account";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // const data = [
 //   {
@@ -28,6 +29,23 @@ export default function AccountsPage() {
   const accounts = accountQuery.data || [];
 
   const { onOpen } = useNewAccountStore();
+
+  if (accountQuery.isLoading) {
+    return (
+      <div className=" max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
+      <Card className="border-none drop-shadow-sm ">
+        <CardHeader>
+          <Skeleton className="h-10 w-48" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-[500px] w-full flex items-center justify-center" />
+          <Loader2 className="animate-spin text-muted-foreground" />
+        </CardContent>
+</Card>
+      </div>
+    )
+  }
+
   return (
     <div className=" max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
       <Card className="border-none drop-shadow-sm ">
@@ -42,7 +60,7 @@ export default function AccountsPage() {
           <DataTable
             columns={columns}
             data={accounts}
-            filterKey="email"
+            filterKey="name"
             onDelete={() => { }}
             disabled={true}
           />
