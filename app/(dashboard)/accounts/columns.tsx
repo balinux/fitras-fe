@@ -7,6 +7,7 @@ import {} from "@radix-ui/react-checkbox";
 import { Checkbox } from "@/components/ui/checkbox";
 import { InferResponseType } from "hono";
 import { client } from "@/lib/hono";
+import Actions from "./actions";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -56,4 +57,8 @@ export const columns: ColumnDef<ResponseType>[] = [
       );
     },
   },
+  {
+    id:"action",
+    cell:({row}) => <Actions id={row.original.id}/>
+  }
 ];
