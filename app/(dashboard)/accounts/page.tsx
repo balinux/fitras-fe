@@ -7,6 +7,7 @@ import { columns } from "@/app/(dashboard)/accounts/columns";
 import { DataTable } from "@/components/data-table";
 import { useGetAcounts } from "@/features/accounts/api/use-get-account";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useBulkDeleteAccount } from "@/features/accounts/api/use-bulk-delete";
 
 // const data = [
 //   {
@@ -28,7 +29,11 @@ export default function AccountsPage() {
   const accountQuery = useGetAcounts();
   const accounts = accountQuery.data || [];
 
+  const deleteMutation = useBulkDeleteAccount();
+
   const { onOpen } = useNewAccountStore();
+
+  const isDisabled = accountQuery.isLoading || deleteMutation.isPending;
 
   if (accountQuery.isLoading) {
     return (
@@ -61,8 +66,11 @@ export default function AccountsPage() {
             columns={columns}
             data={accounts}
             filterKey="name"
-            onDelete={() => { }}
-            disabled={true}
+            onDelete={(row) => {
+              const ids = row.map((r) => r.original.id);
+              deleteMutation.mutate({ ids });
+             }}
+            disabled={isDisabled}
           />
         </CardContent>
       </Card>

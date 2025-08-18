@@ -45,6 +45,10 @@ export const columns: ColumnDef<ResponseType>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
     accessorKey: "name",
     header: ({ column }) => {
       return (
@@ -58,8 +62,5 @@ export const columns: ColumnDef<ResponseType>[] = [
       );
     },
   },
-  {
-    accessorKey: "id",
-    header: "ID",
-  },
+
 ];
