@@ -9,12 +9,6 @@ import { InferResponseType } from "hono";
 import { client } from "@/lib/hono";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
-  id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
-};
 
 export type ResponseType = InferResponseType<
   typeof client.api.accounts.$get,
@@ -62,5 +56,4 @@ export const columns: ColumnDef<ResponseType>[] = [
       );
     },
   },
-
 ];

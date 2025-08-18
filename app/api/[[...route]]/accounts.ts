@@ -68,13 +68,13 @@ const app = new Hono()
 
   // delete
   .post(
-    '/bulk-delete',
+    "/bulk-delete",
     clerkMiddleware(),
     zValidator(
       "json",
       z.object({
         ids: z.array(z.string()),
-      })
+      }),
     ),
     async (c) => {
       const auth = getAuth(c);
@@ -94,15 +94,15 @@ const app = new Hono()
         .where(
           and(
             eq(accounts.userId, auth.userId),
-            inArray(accounts.id, values.ids)
-          )
+            inArray(accounts.id, values.ids),
+          ),
         )
         .returning();
 
       return c.json({
         data,
-      })
-    }
-  )
+      });
+    },
+  );
 
 export default app;

@@ -24,7 +24,6 @@ import { useBulkDeleteAccount } from "@/features/accounts/api/use-bulk-delete";
 //   },
 // ];
 
-
 export default function AccountsPage() {
   const accountQuery = useGetAcounts();
   const accounts = accountQuery.data || [];
@@ -38,17 +37,17 @@ export default function AccountsPage() {
   if (accountQuery.isLoading) {
     return (
       <div className=" max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
-      <Card className="border-none drop-shadow-sm ">
-        <CardHeader>
-          <Skeleton className="h-10 w-48" />
-        </CardHeader>
-        <CardContent>
-          <Skeleton className="h-[500px] w-full flex items-center justify-center" />
-          <Loader2 className="animate-spin text-muted-foreground" />
-        </CardContent>
-</Card>
+        <Card className="border-none drop-shadow-sm ">
+          <CardHeader>
+            <Skeleton className="h-10 w-48" />
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-[500px] w-full flex items-center justify-center" />
+            <Loader2 className="animate-spin text-muted-foreground" />
+          </CardContent>
+        </Card>
       </div>
-    )
+    );
   }
 
   return (
@@ -69,7 +68,7 @@ export default function AccountsPage() {
             onDelete={(row) => {
               const ids = row.map((r) => r.original.id);
               deleteMutation.mutate({ ids });
-             }}
+            }}
             disabled={isDisabled}
           />
         </CardContent>
