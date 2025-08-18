@@ -26,12 +26,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
+import { useConfirm } from "@/hooks/use-confirm";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filterKey: string;
-  onDelete: (row: Row<TData>) => void;
+  onDelete: (row: Row<TData>[]) => void;
   disabled?: boolean;
 }
 
@@ -42,6 +43,12 @@ export function DataTable<TData, TValue>({
   onDelete,
   disabled,
 }: DataTableProps<TData, TValue>) {
+
+  // custom hook confirm dialog
+  const [ConfirmDialog, confirm] = useConfirm(
+    "Are you sure you want to delete these accounts?",
+    "This action cannot be undone.",
+  )
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -66,6 +73,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
+      <ConfirmDialog/>
       <div className="flex items-center py-4">
         <Input
           placeholder={`Filter ${filterKey}...`}
@@ -81,6 +89,13 @@ export function DataTable<TData, TValue>({
             variant="outline"
             size="sm"
             className="ml-auto font-normal text-xs"
+            onClick={async () => {
+              const result = await confirm();
+              if (result) {
+                onDelete(table.getFilteredSelectedRowModel().rows);
+                table.resetRowSelection();
+              }
+            }}
           >
             <Trash2 className="mr-2 h-4 w-4" />
             Delete ({table.getFilteredSelectedRowModel().rows.length})
