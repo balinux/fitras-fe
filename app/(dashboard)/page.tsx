@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useGetAcounts } from "@/features/accounts/api/use-get-account";
+import { useGetAcounts } from "@/features/accounts/api/use-get-accounts";
 import useNewAccountStore from "@/features/accounts/hooks/use-new-accout-hook";
 
 export default function Home() {

@@ -5,7 +5,7 @@ import { Loader2, Plus } from "lucide-react";
 import useNewAccountStore from "@/features/accounts/hooks/use-new-accout-hook";
 import { columns } from "@/app/(dashboard)/accounts/columns";
 import { DataTable } from "@/components/data-table";
-import { useGetAcounts } from "@/features/accounts/api/use-get-account";
+import { useGetAcounts } from "@/features/accounts/api/use-get-accounts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkDeleteAccount } from "@/features/accounts/api/use-bulk-delete";
 
