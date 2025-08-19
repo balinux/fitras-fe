@@ -16,7 +16,10 @@ import { insertAccountSchema } from "@/db/schema";
 import z from "zod";
 import { useGetAcount } from "@/features/accounts/api/use-get-account";
 import { Loader2 } from "lucide-react";
-import { useEditAccount } from "../api/use-edit-acount";
+import { useEditAccount } from "@/features/accounts/api/use-edit-acount";
+import { useDeleteAccount } from "@/features/accounts/api/use-delete-acount";
+import { useConfirm } from "@/hooks/use-confirm";
+
 
 export default function EditAccountSheet() {
   const { isOpen, onClose, id } = useEditAccountStore();
@@ -25,10 +28,19 @@ export default function EditAccountSheet() {
   const accountQuery = useGetAcount(id)
 
   // mutaion for edit
-  const {mutate, isPending} = useEditAccount(id)
+  const { mutate: editMutate, isPending: editPending } = useEditAccount(id)
+
+  // mutation for delete
+  const { mutate: deleteMutate, isPending: deletePending } = useDeleteAccount(id)
 
   // check if isLoading
   const isLoading = accountQuery.isLoading;
+
+  // confirmation hooks
+  const [ConfirmDelete, confirm] = useConfirm(
+    "are you sure you want to delete this account?",
+    "Delete Account",
+  )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const formSchema = insertAccountSchema.pick({
@@ -38,7 +50,7 @@ export default function EditAccountSheet() {
   type formValues = z.infer<typeof formSchema>;
 
   const onSubmit = (values: formValues) => {
-    mutate(values, {
+    editMutate(values, {
       onSuccess: () => {
         onClose();
       },
@@ -52,7 +64,21 @@ export default function EditAccountSheet() {
     name: ""
   };
 
+  // on delete function
+  const onDelete = async () => {
+    const ok = await confirm();
+    if (ok) {
+      deleteMutate(undefined,{
+        onSuccess:() => {
+          onClose();
+        }
+      });
+    }
+  }
+
   return (
+    <>
+    <ConfirmDelete/>
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent side="right" className="space-y-4">
         <SheetHeader>
@@ -70,10 +96,11 @@ export default function EditAccountSheet() {
             </div>
           ) : (
             <AccountForm
-              id=""
+              id={id}
               onSubmit={onSubmit}
-              disabled={isPending}
+              disabled={editPending || deletePending}
               defaultValue={defaulValue}
+              onDelete={onDelete}
             />
           )}
 
@@ -85,5 +112,7 @@ export default function EditAccountSheet() {
         </SheetFooter>
       </SheetContent>
     </Sheet>
+    </>
+
   );
 }
