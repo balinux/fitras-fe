@@ -12,7 +12,7 @@ import Actions from "./actions";
 // You can use a Zod schema here if you want.
 
 export type ResponseType = InferResponseType<
-  typeof client.api.accounts.$get,
+  typeof client.api.categories.$get,
   200
 >["data"][0];
 

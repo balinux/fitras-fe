@@ -23,7 +23,9 @@ const app = new Hono().basePath("/api");
 
 //  define route
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const routes = app.route("/accounts", accounts);
+const routes = app
+  .route("/accounts", accounts)
+  .route("/categories", categories);
 
 app.get("/", clerkMiddleware(), (c) => {
   const auth = getAuth(c);

@@ -10,40 +10,40 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
-import useEditAccountStore from "@/features/accounts/hooks/use-edit-account-hook";
-import AccountForm from "@/features/accounts/components/account-form";
-import { insertAccountSchema } from "@/db/schema";
+import useEditCategoryStore from "@/features/categories/hooks/use-edit-category-hook";
+import CategoryForm from "@/features/categories/components/category-form";
+import { insertCategorySchema } from "@/db/schema";
 import z from "zod";
-import { useGetAcount } from "@/features/accounts/api/use-get-account";
+import { useGetCategory } from "@/features/categories/api/use-get-category";
 import { Loader2 } from "lucide-react";
-import { useEditAccount } from "@/features/accounts/api/use-edit-acount";
-import { useDeleteAccount } from "@/features/accounts/api/use-delete-acount";
+import { useEditCategory } from "@/features/categories/api/use-edit-category";
+import { useDeleteCategory } from "@/features/categories/api/use-delete-category";
 import { useConfirm } from "@/hooks/use-confirm";
 
-export default function EditAccountSheet() {
-  const { isOpen, onClose, id } = useEditAccountStore();
+export default function EditCategorySheet() {
+  const { isOpen, onClose, id } = useEditCategoryStore();
 
-  //   ambil data account
-  const accountQuery = useGetAcount(id);
+  //   ambil data caategory
+  const categoryQuery = useGetCategory(id);
 
   // mutaion for edit
-  const { mutate: editMutate, isPending: editPending } = useEditAccount(id);
+  const { mutate: editMutate, isPending: editPending } = useEditCategory(id);
 
   // mutation for delete
   const { mutate: deleteMutate, isPending: deletePending } =
-    useDeleteAccount(id);
+    useDeleteCategory(id);
 
   // check if isLoading
-  const isLoading = accountQuery.isLoading;
+  const isLoading = categoryQuery.isLoading;
 
   // confirmation hooks
   const [ConfirmDelete, confirm] = useConfirm(
-    "are you sure you want to delete this account?",
-    "Delete Account",
+    "are you sure you want to delete this category?",
+    "Delete Category",
   );
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const formSchema = insertAccountSchema.pick({
+  const formSchema = insertCategorySchema.pick({
     name: true,
   });
 
@@ -58,9 +58,9 @@ export default function EditAccountSheet() {
   };
 
   //   default value
-  const defaulValue = accountQuery.data
+  const defaulValue = categoryQuery.data
     ? {
-        name: accountQuery.data[0].name,
+        name: categoryQuery.data[0].name,
       }
     : {
         name: "",
@@ -84,9 +84,9 @@ export default function EditAccountSheet() {
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent side="right" className="space-y-4">
           <SheetHeader>
-            <SheetTitle>Edit Account</SheetTitle>
+            <SheetTitle>Edit Category</SheetTitle>
             <SheetDescription>
-              Edit account to track your expenses
+              Edit category to organize your expenses
             </SheetDescription>
           </SheetHeader>
 
@@ -96,7 +96,7 @@ export default function EditAccountSheet() {
               <Loader2 className="size-2 text-muted-foreground animate-spin" />
             </div>
           ) : (
-            <AccountForm
+            <CategoryForm
               id={id}
               onSubmit={onSubmit}
               disabled={editPending || deletePending}

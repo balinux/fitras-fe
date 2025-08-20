@@ -107,9 +107,12 @@ const app = new Hono()
   // edit account
   .get(
     "/:id",
-    zValidator("param", z.object({
-      id: z.string().optional(),
-    })),
+    zValidator(
+      "param",
+      z.object({
+        id: z.string().optional(),
+      }),
+    ),
     clerkMiddleware(),
     async (c) => {
       const auth = getAuth(c);
@@ -139,7 +142,9 @@ const app = new Hono()
           name: accounts.name,
         })
         .from(accounts)
-        .where(and(eq(accounts.userId, auth.userId), eq(accounts.id, values.id)));
+        .where(
+          and(eq(accounts.userId, auth.userId), eq(accounts.id, values.id)),
+        );
 
       if (!data) {
         return c.json(
@@ -153,7 +158,7 @@ const app = new Hono()
       return c.json({
         data,
       });
-    }
+    },
   )
   // update account
   .patch(
@@ -162,49 +167,50 @@ const app = new Hono()
     zValidator(
       "param",
       z.object({
-        id: z.string().optional()
-      })
+        id: z.string().optional(),
+      }),
     ),
     zValidator(
       "json",
       insertAccountSchema.pick({
-        name: true
-      })
+        name: true,
+      }),
     ),
     async (c) => {
-      const auth = getAuth(c)
-      const { id } = c.req.valid("param")
-      const values = c.req.valid("json")
+      const auth = getAuth(c);
+      const { id } = c.req.valid("param");
+      const values = c.req.valid("json");
 
       if (!id) {
-        return c.json({ error: "missing id" }, 400)
+        return c.json({ error: "missing id" }, 400);
       }
 
       if (!auth?.userId) {
-        return c.json({
-          error: "unauthorized"
-        }, 401)
+        return c.json(
+          {
+            error: "unauthorized",
+          },
+          401,
+        );
       }
 
       const [data] = await db
         .update(accounts)
         .set(values)
-        .where(
-          and(
-            eq(accounts.userId, auth.userId),
-            eq(accounts.id, id)
-          )
-        )
-        .returning()
+        .where(and(eq(accounts.userId, auth.userId), eq(accounts.id, id)))
+        .returning();
 
       if (!data) {
-        return c.json({
-          error: "not found"
-        }, 404)
+        return c.json(
+          {
+            error: "not found",
+          },
+          404,
+        );
       }
 
-      return c.json({data})
-    }
+      return c.json({ data });
+    },
   )
   // delete account
   .delete(
@@ -213,44 +219,44 @@ const app = new Hono()
     zValidator(
       "param",
       z.object({
-        id: z.string().optional()
-      })
+        id: z.string().optional(),
+      }),
     ),
     async (c) => {
-      const auth = getAuth(c)
-      const { id } = c.req.valid("param")
+      const auth = getAuth(c);
+      const { id } = c.req.valid("param");
 
       if (!id) {
-        return c.json({ error: "missing id" }, 400)
+        return c.json({ error: "missing id" }, 400);
       }
 
       if (!auth?.userId) {
-        return c.json({
-          error: "unauthorized"
-        }, 401)
+        return c.json(
+          {
+            error: "unauthorized",
+          },
+          401,
+        );
       }
 
       const [data] = await db
         .delete(accounts)
-        .where(
-          and(
-            eq(accounts.userId, auth.userId),
-            eq(accounts.id, id)
-          )
-        )
+        .where(and(eq(accounts.userId, auth.userId), eq(accounts.id, id)))
         .returning({
-          id:accounts.id
-        })
+          id: accounts.id,
+        });
 
       if (!data) {
-        return c.json({
-          error: "not found"
-        }, 404)
+        return c.json(
+          {
+            error: "not found",
+          },
+          404,
+        );
       }
 
-      return c.json({data})
-    }
-  )
-
+      return c.json({ data });
+    },
+  );
 
 export default app;
