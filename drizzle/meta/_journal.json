@@ -15,6 +15,13 @@
       "when": 1755663700933,
       "tag": "0001_worried_angel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1755684370251,
+      "tag": "0002_exotic_stephen_strange",
+      "breakpoints": true
     }
   ]
 }
