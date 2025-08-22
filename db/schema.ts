@@ -11,9 +11,9 @@ export const accounts = pgTable("accounts", {
 });
 
 // relation one to many accounts to transactions
-export const accountsRelations = relations(accounts,({many})=>({
+export const accountsRelations = relations(accounts, ({ many }) => ({
   transactions: many(transactions),
-}))
+}));
 
 export const insertAccountSchema = createInsertSchema(accounts);
 
@@ -24,9 +24,9 @@ export const categories = pgTable("categories", {
   userId: text("user_id").notNull(),
 });
 // relation one to many categories to transactions
-export const categoriesRelations = relations(categories,({many})=>({
+export const categoriesRelations = relations(categories, ({ many }) => ({
   transactions: many(transactions),
-}))
+}));
 
 export const insertCategorySchema = createInsertSchema(categories);
 
@@ -37,21 +37,25 @@ export const transactions = pgTable("transactions", {
   payee: text("payee").notNull(),
   notes: text("notes"),
   date: timestamp("date", { mode: "date" }).notNull(),
-  accountId: text("account_id").references(() => accounts.id, { onDelete: "cascade" }).notNull(),
-  categoryId: text("category_id").references(() => categories.id, { onDelete: "set null" }),
+  accountId: text("account_id")
+    .references(() => accounts.id, { onDelete: "cascade" })
+    .notNull(),
+  categoryId: text("category_id").references(() => categories.id, {
+    onDelete: "set null",
+  }),
 });
 
 // relation many to one transactions to accounts
-export const transactionsRelations = relations(transactions,({one})=>({
-  account: one(accounts,{
-    fields:[transactions.accountId],
-    references:[accounts.id]
+export const transactionsRelations = relations(transactions, ({ one }) => ({
+  account: one(accounts, {
+    fields: [transactions.accountId],
+    references: [accounts.id],
   }),
-  category: one(categories,{
-    fields:[transactions.categoryId],
-    references:[categories.id]
-  })
-}))
+  category: one(categories, {
+    fields: [transactions.categoryId],
+    references: [categories.id],
+  }),
+}));
 
 // insert transaction schema
 export const insertTransactionSchema = createInsertSchema(transactions, {

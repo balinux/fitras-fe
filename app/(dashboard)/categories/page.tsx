@@ -10,7 +10,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkDeleteCategory } from "@/features/categories/api/use-bulk-delete-categories";
 
 export default function CategoriesPage() {
-
   // get categories query
   const categoryQuery = useGetCategories();
 
