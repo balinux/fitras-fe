@@ -1,5 +1,10 @@
 import { db } from "@/db/drizzle";
-import { transactions, insertTransactionSchema, categories, accounts } from "@/db/schema";
+import {
+  transactions,
+  insertTransactionSchema,
+  categories,
+  accounts,
+} from "@/db/schema";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { createId } from "@paralleldrive/cuid2";
 import { and, desc, eq, gte, inArray, lte, sql } from "drizzle-orm";
@@ -11,17 +16,19 @@ import { parse, subDays } from "date-fns";
 const app = new Hono()
   .get(
     "/",
-    zValidator("query", z.object({
-      from: z.string().optional(),
-      to: z.string().optional(),
-      accountId: z.string().optional(),
-    })),
+    zValidator(
+      "query",
+      z.object({
+        from: z.string().optional(),
+        to: z.string().optional(),
+        accountId: z.string().optional(),
+      }),
+    ),
     clerkMiddleware(),
     async (c) => {
       // check is authenticated
       const auth = getAuth(c);
       const { from, to, accountId } = c.req.valid("query");
-
 
       if (!auth?.userId) {
         return c.json(
@@ -34,15 +41,13 @@ const app = new Hono()
 
       // setup default value
       const defaultTo = new Date();
-      const defaultFrom = subDays(defaultTo, 30)
+      const defaultFrom = subDays(defaultTo, 30);
 
       const startDate = from
         ? parse(from, "yyyy-MM-dd", new Date())
-        : defaultFrom
+        : defaultFrom;
 
-      const endDate = to
-        ? parse(to, "yyyy-MM-dd", new Date())
-        : defaultTo
+      const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
 
       // get all transactions
       const data = await db
@@ -66,14 +71,15 @@ const app = new Hono()
             eq(accounts.userId, auth.userId),
             gte(transactions.date, startDate),
             lte(transactions.date, endDate),
-          )
+          ),
         )
-        .orderBy(desc(transactions.date))
+        .orderBy(desc(transactions.date));
 
       return c.json({
         data,
       });
-    })
+    },
+  )
 
   // edit account
   .get(
@@ -119,12 +125,7 @@ const app = new Hono()
         })
         .from(transactions)
         .innerJoin(accounts, eq(transactions.accountId, accounts.id))
-        .where(
-          and(
-            eq(transactions.id, id),
-            eq(accounts.userId, auth.userId),
-          ),
-        );
+        .where(and(eq(transactions.id, id), eq(accounts.userId, auth.userId)));
 
       if (!data) {
         return c.json(
@@ -144,9 +145,12 @@ const app = new Hono()
   .post(
     "/",
     clerkMiddleware(),
-    zValidator("json", insertTransactionSchema.omit({
-      id: true,
-    })),
+    zValidator(
+      "json",
+      insertTransactionSchema.omit({
+        id: true,
+      }),
+    ),
     async (c) => {
       // check is authenticated
       const auth = getAuth(c);
@@ -178,10 +182,14 @@ const app = new Hono()
   .post(
     "/bulk-create",
     clerkMiddleware(),
-    zValidator("json",
-      z.array(insertTransactionSchema.omit({
-        id: true,
-      }))),
+    zValidator(
+      "json",
+      z.array(
+        insertTransactionSchema.omit({
+          id: true,
+        }),
+      ),
+    ),
     async (c) => {
       const auth = getAuth(c);
       const values = c.req.valid("json");
@@ -197,16 +205,18 @@ const app = new Hono()
 
       const data = await db
         .insert(transactions)
-        .values(values.map((value) => ({
-          id: createId(),
-          ...value,
-        })))
+        .values(
+          values.map((value) => ({
+            id: createId(),
+            ...value,
+          })),
+        )
         .returning();
 
       return c.json({
         data,
       });
-    }
+    },
   )
 
   // bulk-delete
@@ -233,24 +243,30 @@ const app = new Hono()
       }
 
       const transactionToDelete = db.$with("transaction_to_delete").as(
-        db.select({ id: transactions.id }).from(transactions)
+        db
+          .select({ id: transactions.id })
+          .from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
           .where(
             and(
               eq(accounts.userId, auth.userId),
               inArray(transactions.id, values.ids),
-            )
-          )
-      )
+            ),
+          ),
+      );
 
       const data = await db
         .with(transactionToDelete)
         .delete(transactions)
-        .where(inArray(transactions.id, sql`(select id from ${transactionToDelete})`))
+        .where(
+          inArray(
+            transactions.id,
+            sql`(select id from ${transactionToDelete})`,
+          ),
+        )
         .returning({
-          id: transactions.id
+          id: transactions.id,
         });
-
 
       return c.json({
         data,
@@ -293,22 +309,25 @@ const app = new Hono()
       }
 
       const transactionToUpdate = db.$with("transaction_to_update").as(
-        db.select({ id: transactions.id })
+        db
+          .select({ id: transactions.id })
           .from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
           .where(
-            and(
-              eq(accounts.userId, auth.userId),
-              eq(transactions.id, id),
-            )
-          )
-      )
+            and(eq(accounts.userId, auth.userId), eq(transactions.id, id)),
+          ),
+      );
 
       const [data] = await db
         .with(transactionToUpdate)
         .update(transactions)
         .set(values)
-        .where(inArray(transactions.id, sql`(select id from ${transactionToUpdate})`))
+        .where(
+          inArray(
+            transactions.id,
+            sql`(select id from ${transactionToUpdate})`,
+          ),
+        )
         .returning();
 
       if (!data) {
@@ -352,23 +371,26 @@ const app = new Hono()
       }
 
       const transactionToDelete = db.$with("transaction_to_delete").as(
-        db.select({ id: transactions.id })
+        db
+          .select({ id: transactions.id })
           .from(transactions)
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
           .where(
-            and(
-              eq(accounts.userId, auth.userId),
-              eq(transactions.id, id),
-            )
-          )
-      )
+            and(eq(accounts.userId, auth.userId), eq(transactions.id, id)),
+          ),
+      );
 
       const [data] = await db
         .with(transactionToDelete)
         .delete(transactions)
-        .where(inArray(transactions.id, sql`(select id from ${transactionToDelete})`))
+        .where(
+          inArray(
+            transactions.id,
+            sql`(select id from ${transactionToDelete})`,
+          ),
+        )
         .returning({
-          id: transactions.id
+          id: transactions.id,
         });
 
       if (!data) {
