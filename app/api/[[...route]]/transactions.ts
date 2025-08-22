@@ -7,8 +7,8 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import z from "zod";
 import { parse, subDays } from "date-fns";
-const app = new Hono()
 
+const app = new Hono()
   .get(
     "/",
     zValidator("query", z.object({
@@ -173,6 +173,40 @@ const app = new Hono()
         data,
       });
     },
+  )
+
+  .post(
+    "/bulk-create",
+    clerkMiddleware(),
+    zValidator("json",
+      z.array(insertTransactionSchema.omit({
+        id: true,
+      }))),
+    async (c) => {
+      const auth = getAuth(c);
+      const values = c.req.valid("json");
+
+      if (!auth?.userId) {
+        return c.json(
+          {
+            error: "Unauthorized",
+          },
+          401,
+        );
+      }
+
+      const data = await db
+        .insert(transactions)
+        .values(values.map((value) => ({
+          id: createId(),
+          ...value,
+        })))
+        .returning();
+
+      return c.json({
+        data,
+      });
+    }
   )
 
   // bulk-delete
