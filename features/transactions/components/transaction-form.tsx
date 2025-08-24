@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Trash } from "lucide-react";
 import { insertTransactionSchema } from "@/db/schema";
 import { Select } from "@/components/select";
+import DatePicker from "@/components/date-picker";
 
 const formSchema = z.object({
   date: z.coerce.date(),
@@ -75,8 +76,31 @@ export default function TransactionForm({
         onSubmit={form.handleSubmit(handleSubmit)}
         className="space-x-4 space-y-4 pt-4 mx-5"
       >
+        {/* date */}
+        <FormField
+          name="date"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date</FormLabel>
+              <FormControl>
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={disabled}
+                />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           name="accountId"
+          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Account</FormLabel>
@@ -101,6 +125,7 @@ export default function TransactionForm({
 
         <FormField
           name="categoryId"
+          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Category</FormLabel>
@@ -113,6 +138,28 @@ export default function TransactionForm({
                   value={field.value}
                   onChange={field.onChange}
 
+                />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* payee */}
+        <FormField
+          name="payee"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Payee</FormLabel>
+              <FormControl>
+                <Input
+                 disabled={disabled}
+                 placeholder="add a payee"
+                 {...field}
                 />
               </FormControl>
               <FormDescription>
