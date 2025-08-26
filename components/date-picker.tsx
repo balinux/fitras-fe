@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { Calendar } from "./ui/calendar";
 
 type Props = {
-    value? : Date;
+    value?: Date;
     onChange?: (date:Date | undefined) => void;
     disabled?: boolean;
 }

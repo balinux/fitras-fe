@@ -12,36 +12,42 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Loader2, Trash } from "lucide-react";
+import { CalendarIcon, Loader2, Trash } from "lucide-react";
 import { insertTransactionSchema } from "@/db/schema";
 import { Select } from "@/components/select";
 import DatePicker from "@/components/date-picker";
+import { Textarea } from "@/components/ui/textarea";
+import AmountInput from "@/components/amount-input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn, convertAmountTomiliUnit } from "@/lib/utils";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
 
 const formSchema = z.object({
-  date: z.coerce.date(),
+  date: z.date(),
   accountId: z.string(),
-  categoryId: z.string(),
+  categoryId: z.string().nullable().optional(),
   payee: z.string(),
-  amount: z.number(),
-  note: z.string().nullable().optional(),
-})
+  amount: z.string(),
+  notes: z.string().nullable().optional(),
+});
 
 const apiSchema = insertTransactionSchema.omit({
   id: true,
-})
+});
 
-type ApiFormValues = z.infer<typeof apiSchema>
-type formValues = z.infer<typeof formSchema>;
+type ApiFormValues = z.input<typeof apiSchema>;
+type FormValues = z.input<typeof formSchema>;
 
 type Props = {
   id?: string;
-  defaultValue?: formValues;
+  defaultValue?: FormValues;
   onSubmit: (values: ApiFormValues) => void;
   onDelete?: () => void;
   disabled?: boolean;
   accountOptions: { label: string; value: string }[];
   categoryOptions: { label: string; value: string }[];
-  onCreateAccount: (name: string) => void
+  onCreateAccount: (name: string) => void;
   onCreateCategory: (name: string) => void;
 };
 
@@ -54,16 +60,22 @@ export default function TransactionForm({
   accountOptions,
   categoryOptions,
   onCreateAccount,
-  onCreateCategory
+  onCreateCategory,
 }: Props) {
-  const form = useForm<formValues>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValue,
   });
 
-  const handleSubmit = async (values: formValues) => {
-    // onSubmit(values);
+  const handleSubmit = (values: FormValues) => {
     console.log(values);
+    const amount = parseFloat(values.amount);
+    const amountInMilliUnit = convertAmountTomiliUnit(amount);
+    
+    onSubmit({
+      ...values,
+      amount: amountInMilliUnit,
+    });
   };
 
   const handleDelete = () => {
@@ -157,9 +169,10 @@ export default function TransactionForm({
               <FormLabel>Payee</FormLabel>
               <FormControl>
                 <Input
-                 disabled={disabled}
-                 placeholder="add a payee"
-                 {...field}
+                  disabled={disabled}
+                  placeholder="add a payee"
+                  {...field}
+                  value={field.value || ""}
                 />
               </FormControl>
               <FormDescription>
@@ -169,6 +182,55 @@ export default function TransactionForm({
             </FormItem>
           )}
         />
+
+        {/* amount */}
+        <FormField
+          name="amount"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Amount</FormLabel>
+              <FormControl>
+                <AmountInput
+                  {...field}
+                  value={field.value || ""}
+                  disabled={disabled}
+                  placeholder="0.0"
+                />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* notes */}
+        <FormField
+          name="notes"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Notes</FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  value={field.value || ""}
+                  disabled={disabled}
+                  placeholder="add a note (optional)"
+                />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+
+
         <Button
           disabled={disabled}
           className="w-full mt-5"
@@ -188,7 +250,7 @@ export default function TransactionForm({
             className="w-full mt-5"
           >
             <Trash className="size-4 mr-2" />
-            Delete Account
+            Delete Transaction
           </Button>
         )}
       </form>

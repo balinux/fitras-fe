@@ -45,7 +45,7 @@ export default function NewTransactionSheet() {
     id: true,
   });
 
-  type formValues = z.infer<typeof formSchema>;
+  type formValues = z.input<typeof formSchema>;
 
   const onSubmit = (values: formValues) => {
     addTransactionMutation(values, {
