@@ -9,7 +9,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkDeleteTransaction } from "@/features/transactions/api/use-bulk-delete-transactions";
 import useNewTransactionStore from "@/features/transactions/hooks/use-new-transaction-hook";
 
-
 export default function TransactionsPage() {
   const transactionQuery = useGetTransaction();
   const transactions = transactionQuery.data || [];
@@ -40,7 +39,9 @@ export default function TransactionsPage() {
     <div className=" max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
       <Card className="border-none drop-shadow-sm ">
         <CardHeader className="gap-y-2 lg:flex lg:flex-row lg:items-center lg:justify-between ">
-          <CardTitle className="text-xl line-clamp-1 ">Transactions history</CardTitle>
+          <CardTitle className="text-xl line-clamp-1 ">
+            Transactions history
+          </CardTitle>
           <Button className="w-full lg:w-auto" onClick={onOpen}>
             <Plus className="mr-2 h-4 w-4" />
             Add new

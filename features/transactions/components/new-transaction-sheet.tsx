@@ -26,16 +26,20 @@ export default function NewTransactionSheet() {
   const { isOpen, onClose } = useNewTransactionStore();
 
   // react query
-  const { mutate: addTransactionMutation, isPending: addTransactionIsPending } = useCreateTransaction();
+  const { mutate: addTransactionMutation, isPending: addTransactionIsPending } =
+    useCreateTransaction();
 
   // add category mutation
-  const { mutate: addCategoryMutation, isPending: addCategoryIsPending } = useCreateCategory();
+  const { mutate: addCategoryMutation, isPending: addCategoryIsPending } =
+    useCreateCategory();
 
   // add category query
-  const { data: categories, isLoading: categoriesIsLoading } = useGetCategories();
+  const { data: categories, isLoading: categoriesIsLoading } =
+    useGetCategories();
 
   // add category mutation
-  const { mutate: addAccountMutation, isPending: addAccountIsPending } = useCreateAccount();
+  const { mutate: addAccountMutation, isPending: addAccountIsPending } =
+    useCreateAccount();
 
   // add category query
   const { data: accounts, isLoading: accountsIsLoading } = useGetAccounts();
@@ -69,23 +73,30 @@ export default function NewTransactionSheet() {
 
   // function for create category
   const onCreateCategory = (name: string) => {
-    addCategoryMutation({ name }, {
-      onSuccess: () => {
-        // onClose();
+    addCategoryMutation(
+      { name },
+      {
+        onSuccess: () => {
+          // onClose();
+        },
       },
-    });
-  }
+    );
+  };
 
   // function for create category
   const onCreateAccount = (name: string) => {
-    addAccountMutation({ name }, {
-      onSuccess: () => {
-        // onClose();
+    addAccountMutation(
+      { name },
+      {
+        onSuccess: () => {
+          // onClose();
+        },
       },
-    });
-  }
+    );
+  };
 
-  const isPending = addTransactionIsPending || addCategoryIsPending || addAccountIsPending
+  const isPending =
+    addTransactionIsPending || addCategoryIsPending || addAccountIsPending;
   const isLoading = categoriesIsLoading || accountsIsLoading;
 
   return (
@@ -103,23 +114,20 @@ export default function NewTransactionSheet() {
           defaultValue={{ name: "" }}
         /> */}
 
-        {isLoading
-          ? (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Loader2 className="animate-spin text-muted-foreground" />
-            </div>
-          )
-          : (
-            <TransactionForm
-              onSubmit={onSubmit}
-              disabled={isPending}
-              categoryOptions={categoryOptions}
-              accountOptions={accountOptions}
-              onCreateAccount={onCreateAccount}
-              onCreateCategory={onCreateCategory}
-            />
-          )
-        }
+        {isLoading ? (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Loader2 className="animate-spin text-muted-foreground" />
+          </div>
+        ) : (
+          <TransactionForm
+            onSubmit={onSubmit}
+            disabled={isPending}
+            categoryOptions={categoryOptions}
+            accountOptions={accountOptions}
+            onCreateAccount={onCreateAccount}
+            onCreateCategory={onCreateCategory}
+          />
+        )}
 
         <SheetFooter>
           <SheetClose asChild>

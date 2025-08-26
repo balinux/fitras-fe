@@ -6,9 +6,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function convertAmountTomiliUnit(amount: number) {
-    return Math.round(amount * 1000);
+  return Math.round(amount * 1000);
 }
 
 export function convertAmountFromMilliUnit(amount: number) {
-    return amount / 1000;
+  return amount / 1000;
 }

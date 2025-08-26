@@ -18,7 +18,11 @@ import { Select } from "@/components/select";
 import DatePicker from "@/components/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import AmountInput from "@/components/amount-input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn, convertAmountTomiliUnit } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
@@ -71,7 +75,7 @@ export default function TransactionForm({
     console.log(values);
     const amount = parseFloat(values.amount);
     const amountInMilliUnit = convertAmountTomiliUnit(amount);
-    
+
     onSubmit({
       ...values,
       amount: amountInMilliUnit,
@@ -83,7 +87,7 @@ export default function TransactionForm({
   };
 
   return (
-    <Form {...form} >
+    <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
         className="space-x-4 space-y-4 pt-4 mx-5"
@@ -124,7 +128,6 @@ export default function TransactionForm({
                   onCreate={onCreateAccount}
                   value={field.value}
                   onChange={field.onChange}
-
                 />
               </FormControl>
               <FormDescription>
@@ -149,7 +152,6 @@ export default function TransactionForm({
                   onCreate={onCreateCategory}
                   value={field.value}
                   onChange={field.onChange}
-
                 />
               </FormControl>
               <FormDescription>
@@ -228,8 +230,6 @@ export default function TransactionForm({
             </FormItem>
           )}
         />
-
-
 
         <Button
           disabled={disabled}
