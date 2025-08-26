@@ -4,6 +4,7 @@ import NewAccountSheet from "@/features/accounts/components/new-account-sheet";
 import EditAccountSheet from "@/features/accounts/components/edit-account";
 import NewCategorySheet from "@/features/categories/components/new-category-sheet";
 import EditCategorySheet from "@/features/categories/components/edit-category";
+import NewTransactionSheet from "@/features/transactions/components/new-transaction-sheet";
 
 export default function SheetProvider() {
   return (
@@ -12,6 +13,7 @@ export default function SheetProvider() {
       <EditAccountSheet />
       <NewCategorySheet />
       <EditCategorySheet />
+      <NewTransactionSheet />
     </>
   );
 }
