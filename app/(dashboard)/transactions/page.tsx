@@ -4,13 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Plus } from "lucide-react";
 import { columns } from "@/app/(dashboard)/transactions/columns";
 import { DataTable } from "@/components/data-table";
-import { useGetTransaction } from "@/features/transactions/api/use-get-transaction";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkDeleteTransaction } from "@/features/transactions/api/use-bulk-delete-transactions";
 import useNewTransactionStore from "@/features/transactions/hooks/use-new-transaction-hook";
+import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
 
 export default function TransactionsPage() {
-  const transactionQuery = useGetTransaction();
+  const transactionQuery = useGetTransactions();
   const transactions = transactionQuery.data || [];
 
   const deleteMutation = useBulkDeleteTransaction();
@@ -51,7 +51,7 @@ export default function TransactionsPage() {
           <DataTable
             columns={columns}
             data={transactions}
-            filterKey="name"
+            filterKey="date"
             onDelete={(row) => {
               const ids = row.map((r) => r.original.id);
               deleteMutation.mutate({ ids });
