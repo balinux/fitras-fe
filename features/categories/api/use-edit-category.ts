@@ -30,6 +30,7 @@ export const useEditCategory = (id?: string) => {
       toast.success("Category updated successfully");
       queryClient.invalidateQueries({ queryKey: ["category", { id }] });
       queryClient.invalidateQueries({ queryKey: ["categories"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
     onError: (error) => {
       console.log(error);
