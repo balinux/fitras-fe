@@ -11,6 +11,7 @@ import Actions from "./actions";
 import { format } from "date-fns";
 import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import AccountTransactionEditColumn from "./account-transaction-edit-column";
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
@@ -138,7 +139,7 @@ export const columns: ColumnDef<ResponseType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <span>{row.original.account}</span>
+        <AccountTransactionEditColumn account={row.original.account} accountId={row.original.accountId} />
       )
     }
   },
