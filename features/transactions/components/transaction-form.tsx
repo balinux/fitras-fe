@@ -12,20 +12,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, Loader2, Trash } from "lucide-react";
+import { Loader2, Trash } from "lucide-react";
 import { insertTransactionSchema } from "@/db/schema";
 import { Select } from "@/components/select";
 import DatePicker from "@/components/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import AmountInput from "@/components/amount-input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn, convertAmountTomiliUnit } from "@/lib/utils";
-import { format } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
+
+import { convertAmountTomiliUnit } from "@/lib/utils";
 
 const formSchema = z.object({
   date: z.date(),
@@ -36,6 +30,7 @@ const formSchema = z.object({
   notes: z.string().nullable().optional(),
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const apiSchema = insertTransactionSchema.omit({
   id: true,
 });
