@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
-import { } from "@radix-ui/react-checkbox";
+import {} from "@radix-ui/react-checkbox";
 import { Checkbox } from "@/components/ui/checkbox";
 import { InferResponseType } from "hono";
 import { client } from "@/lib/hono";
@@ -63,10 +63,8 @@ export const columns: ColumnDef<ResponseType>[] = [
     },
     cell: ({ row }) => {
       const date = row.getValue("date") as Date;
-      return (
-        <span>{format(date, "dd MMMM, yyyy")}</span>
-      )
-    }
+      return <span>{format(date, "dd MMMM, yyyy")}</span>;
+    },
   },
   {
     accessorKey: "category",
@@ -83,10 +81,14 @@ export const columns: ColumnDef<ResponseType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <CategoryTransactionEditColumn id={row.original.id} category={row.original.category} categoryId={row.original.categoryId} />
+        <CategoryTransactionEditColumn
+          id={row.original.id}
+          category={row.original.category}
+          categoryId={row.original.categoryId}
+        />
         // <span>{row.original.category}</span>
-      )
-    }
+      );
+    },
   },
   {
     accessorKey: "payee",
@@ -120,11 +122,12 @@ export const columns: ColumnDef<ResponseType>[] = [
       return (
         <Badge
           variant={amount < 0 ? "destructive" : "primary"}
-          className="text-sm font-medium px-3.5 py-2.5 rounded-full">
+          className="text-sm font-medium px-3.5 py-2.5 rounded-full"
+        >
           {formatCurrency(amount)}
         </Badge>
-      )
-    }
+      );
+    },
   },
   {
     accessorKey: "account",
@@ -141,9 +144,12 @@ export const columns: ColumnDef<ResponseType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <AccountTransactionEditColumn account={row.original.account} accountId={row.original.accountId} />
-      )
-    }
+        <AccountTransactionEditColumn
+          account={row.original.account}
+          accountId={row.original.accountId}
+        />
+      );
+    },
   },
   {
     id: "action",

@@ -70,20 +70,17 @@ export default function EditTransactionSheet() {
     value: account.id,
   }));
 
-
-
   // handle isPending
-  const isPending = editPending || 
-  deletePending || 
-  transactionQuery.isLoading ||
-  addCategoryIsPending ||
-  addAccountIsPending;
+  const isPending =
+    editPending ||
+    deletePending ||
+    transactionQuery.isLoading ||
+    addCategoryIsPending ||
+    addAccountIsPending;
 
   // check if isLoading
-  const isLoading = transactionQuery.isLoading ||
-  categoriesIsLoading ||
-  accountsIsLoading;
-
+  const isLoading =
+    transactionQuery.isLoading || categoriesIsLoading || accountsIsLoading;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const formSchema = insertTransactionSchema.omit({
@@ -103,23 +100,23 @@ export default function EditTransactionSheet() {
   //   default value
   const defaulValue = transactionQuery.data
     ? {
-      accountId: transactionQuery.data.accountId,
-      categoryId: transactionQuery.data.categoryId,
-      payee: transactionQuery.data.payee,
-      amount: transactionQuery.data.amount.toString(),
-      notes: transactionQuery.data.notes,
-      date: transactionQuery.data.date
-        ? new Date(transactionQuery.data.date)
-        : new Date(),
-    }
+        accountId: transactionQuery.data.accountId,
+        categoryId: transactionQuery.data.categoryId,
+        payee: transactionQuery.data.payee,
+        amount: transactionQuery.data.amount.toString(),
+        notes: transactionQuery.data.notes,
+        date: transactionQuery.data.date
+          ? new Date(transactionQuery.data.date)
+          : new Date(),
+      }
     : {
-      accountId: "",
-      categoryId: "",
-      payee: "",
-      amount: "",
-      notes: "",
-      date: new Date(),
-    };
+        accountId: "",
+        categoryId: "",
+        payee: "",
+        amount: "",
+        notes: "",
+        date: new Date(),
+      };
 
   // on delete function
   const onDelete = async () => {
@@ -133,8 +130,8 @@ export default function EditTransactionSheet() {
     }
   };
 
-   // function for create category
-   const onCreateCategory = (name: string) => {
+  // function for create category
+  const onCreateCategory = (name: string) => {
     addCategoryMutation(
       { name },
       {
@@ -164,9 +161,7 @@ export default function EditTransactionSheet() {
         <SheetContent side="right" className="space-y-4">
           <SheetHeader>
             <SheetTitle>Edit Transaction</SheetTitle>
-            <SheetDescription>
-              Edit an existing transaction
-            </SheetDescription>
+            <SheetDescription>Edit an existing transaction</SheetDescription>
           </SheetHeader>
 
           {/* handle loading here */}
@@ -176,15 +171,15 @@ export default function EditTransactionSheet() {
             </div>
           ) : (
             <TransactionForm
-            id={id}
-            onSubmit={onSubmit}
-            onDelete={onDelete}
-            disabled={isPending}
-            defaultValue={defaulValue}
-            categoryOptions={categoryOptions}
-            accountOptions={accountOptions}
-            onCreateAccount={onCreateAccount}
-            onCreateCategory={onCreateCategory}
+              id={id}
+              onSubmit={onSubmit}
+              onDelete={onDelete}
+              disabled={isPending}
+              defaultValue={defaulValue}
+              categoryOptions={categoryOptions}
+              accountOptions={accountOptions}
+              onCreateAccount={onCreateAccount}
+              onCreateCategory={onCreateCategory}
             />
           )}
 
