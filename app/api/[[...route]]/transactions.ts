@@ -116,7 +116,7 @@ const app = new Hono()
       const [data] = await db
         .select({
           id: transactions.id,
-          categoryId: categories.id,
+          categoryId: transactions.categoryId,
           payee: transactions.payee,
           amount: transactions.amount,
           notes: transactions.notes,

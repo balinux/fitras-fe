@@ -1,4 +1,5 @@
 import useEditCategoryStore from "@/features/categories/hooks/use-edit-category-hook";
+import useEditTransactionStore from "@/features/transactions/hooks/use-edit-transaction-store";
 import { cn } from "@/lib/utils";
 import { TriangleAlert } from "lucide-react";
 
@@ -10,10 +11,13 @@ type Props = {
 
 export default function CategoryTransactionEditColumn({ id, category, categoryId }: Props) {
     const { onOpen: onOpenEditCategory } = useEditCategoryStore()
+    const {onOpen: onOpenEditTransaction} = useEditTransactionStore()
 
     const onClick = () => {
         if (categoryId) {
             onOpenEditCategory(categoryId);
+        }else{
+            onOpenEditTransaction(id);
         }
     }
     return (
