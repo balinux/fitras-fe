@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
 import ImportTable from "./import-table";
+import { convertAmountTomiliUnit } from "@/lib/utils";
+import { format, parse } from "date-fns";
 
 const dateFormat = "yyyy-MM-dd HH:mm:ss";
 const outputFormat = "yyyy-MM-dd";
@@ -53,8 +55,49 @@ export default function ImportCard({ onCancel, onSubmit, data }: Props) {
 
     const progress = Object.values(selectedColumns).filter(Boolean).length;
 
-    console.log(progress)
+    const handleContinue = () => {
+        const getColumnIndex = (column: string) => {
+            return column.split("_")[1]
+        }
 
+        const mappedData = {
+            headers: headers.map((header, index) => {
+                const columnIndex = getColumnIndex(`column_${index}`)
+                return selectedColumns[`column_${columnIndex}`] || null
+            }),
+            body: body.map((row) => {
+                const transformerRow = row.map((cell, index) => {
+                    const columnIndex = getColumnIndex(`column_${index}`)
+                    return selectedColumns[`column_${columnIndex}`] ? cell : null
+                })
+                return transformerRow.every((item) => item === null) ? [] : transformerRow
+            }).filter((row) => row.length > 0)
+        }
+        // return mappedData;
+        // console.log("mappedData: ", mappedData)
+
+        const arrayOfData = mappedData.body.map((row) => {
+            return row.reduce((acc: any, cell, index) => {
+                const header = mappedData.headers[index]
+                // console.log("header: ", header)
+                if (header !== null) {
+                    acc[header] = cell
+                }
+                // console.log("acc: ", acc)
+                return acc
+            }, {})
+        })
+        // console.log("arrayOfData: ", arrayOfData)
+
+        // format data
+        const formattedData = arrayOfData.map((data) => ({
+            ...data,
+            amount: convertAmountTomiliUnit(data.amount),
+            date: format(parse(data.date, dateFormat, new Date()), outputFormat)
+        }))
+        // console.log("formattedData: ", formattedData)
+        onSubmit(formattedData)
+    }
     return (
         <div className=" max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
             <Card className="border-none drop-shadow-sm ">
@@ -73,7 +116,7 @@ export default function ImportCard({ onCancel, onSubmit, data }: Props) {
                             disabled={progress < requiredOptions.length}
                             className="w-full lg:w-auto"
                             size="sm"
-                            onClick={() => { }}>
+                            onClick={handleContinue}>
                             Continue ({progress}/{requiredOptions.length})
                         </Button>
                     </div>
