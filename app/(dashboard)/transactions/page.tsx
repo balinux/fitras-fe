@@ -20,14 +20,16 @@ enum VARIANTS {
 const INITIAL_IMPORT_RESULTS = {
   data: [],
   errors: [],
-  meta: {}
-}
+  meta: {},
+};
 
 export default function TransactionsPage() {
-  const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST)
+  const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
 
   // import result state
-  const [importResults, setImportResults] = useState<typeof INITIAL_IMPORT_RESULTS>(INITIAL_IMPORT_RESULTS)
+  const [importResults, setImportResults] = useState<
+    typeof INITIAL_IMPORT_RESULTS
+  >(INITIAL_IMPORT_RESULTS);
 
   const transactionQuery = useGetTransactions();
   const transactions = transactionQuery.data || [];
@@ -54,23 +56,25 @@ export default function TransactionsPage() {
     );
   }
 
-  
-
   const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
     // console.log(results)
-    setImportResults(results)
-    setVariant(VARIANTS.IMPORT)
-  }
+    setImportResults(results);
+    setVariant(VARIANTS.IMPORT);
+  };
 
   const onCancelImport = () => {
-    setVariant(VARIANTS.LIST)
-    setImportResults(INITIAL_IMPORT_RESULTS)
-  }
+    setVariant(VARIANTS.LIST);
+    setImportResults(INITIAL_IMPORT_RESULTS);
+  };
 
   if (variant === VARIANTS.IMPORT) {
     return (
-      <ImportCard data={importResults.data} onCancel={onCancelImport} onSubmit={() => {}}/>
-    )
+      <ImportCard
+        data={importResults.data}
+        onCancel={onCancelImport}
+        onSubmit={() => {}}
+      />
+    );
   }
 
   return (
@@ -85,7 +89,7 @@ export default function TransactionsPage() {
               <Plus className="mr-2 h-4 w-4" />
               Add new
             </Button>
-            <UploadButton onUpload={onUpload}/>
+            <UploadButton onUpload={onUpload} />
           </div>
         </CardHeader>
         <CardContent>
