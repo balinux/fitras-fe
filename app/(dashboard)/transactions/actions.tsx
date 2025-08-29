@@ -7,8 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useDeleteAccount } from "@/features/accounts/api/use-delete-acount";
-import useEditAccountStore from "@/features/accounts/hooks/use-edit-account-hook";
+import { useDeleteTransaction } from "@/features/transactions/api/use-delete-transaction";
+import useEditTransactionStore from "@/features/transactions/hooks/use-edit-transaction-store";
 import { useConfirm } from "@/hooks/use-confirm";
 import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
 
@@ -18,15 +18,15 @@ interface ActionProps {
 
 export default function Actions({ id }: ActionProps) {
   // use edit account hook and pass id to it
-  const { onOpen } = useEditAccountStore();
+  const { onOpen } = useEditTransactionStore();
 
   // use delete account hook and pass id to it
-  const { mutate: deleteMutate } = useDeleteAccount(id);
+  const { mutate: deleteMutate } = useDeleteTransaction(id);
 
   // confirmation hooks
   const [ConfirmDelete, confirm] = useConfirm(
-    "are you sure you want to delete this account?",
-    "Delete Account",
+    "are you sure you want to delete this transaction?",
+    "Delete Transaction",
   );
 
   // on delete function

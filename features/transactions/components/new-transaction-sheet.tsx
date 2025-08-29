@@ -37,11 +37,11 @@ export default function NewTransactionSheet() {
   const { data: categories, isLoading: categoriesIsLoading } =
     useGetCategories();
 
-  // add category mutation
+  // add account mutation
   const { mutate: addAccountMutation, isPending: addAccountIsPending } =
     useCreateAccount();
 
-  // add category query
+  // add account query
   const { data: accounts, isLoading: accountsIsLoading } = useGetAccounts();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
