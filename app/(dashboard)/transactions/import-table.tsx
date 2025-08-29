@@ -1,4 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import TableHeadSelect from "./table-head-select"
 
 type Props = {
     headers: string[],
@@ -14,7 +15,13 @@ export default function ImportTable({ headers, body, selectedColumns, onTableHea
                 <TableHeader className="bg-muted">
                     <TableRow>
                         {headers.map((header, index) => (
-                            <TableHead key={index}>{header}</TableHead>
+                            <TableHead key={index}>
+                                <TableHeadSelect
+                                columnIndex={index}
+                                selectedColumns={selectedColumns}
+                                onChange={onTableHeadSelectChange}
+                                />
+                                </TableHead>
                         ))}
                     </TableRow>
                 </TableHeader>
