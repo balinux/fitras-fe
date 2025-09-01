@@ -11,6 +11,10 @@ import { useGetTransactions } from "@/features/transactions/api/use-get-transact
 import { useState } from "react";
 import UploadButton from "./upload-button";
 import ImportCard from "./import-card";
+import { useSelectAccount } from "@/features/accounts/hooks/use-select-account";
+import { transactions as transactionSchema } from "@/db/schema";
+import { toast } from "sonner";
+import { useBulkCreateTransaction } from "@/features/transactions/api/use-bulk-create-transactions";
 
 enum VARIANTS {
   LIST = "LIST",
@@ -24,6 +28,9 @@ const INITIAL_IMPORT_RESULTS = {
 };
 
 export default function TransactionsPage() {
+  // hook for use select account
+  const [AccountDialog, confirm] = useSelectAccount()
+
   const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
 
   // import result state
@@ -38,7 +45,31 @@ export default function TransactionsPage() {
 
   const { onOpen } = useNewTransactionStore();
 
+  // mutration for bulk transaction
+  const { mutate: bulkCreateTransaction } = useBulkCreateTransaction()
+
   const isDisabled = transactionQuery.isLoading || deleteMutation.isPending;
+
+  const onSubmitImport = async (
+    values: typeof transactionSchema.$inferInsert[]
+  ) => {
+    const accountId = await confirm()
+
+    if (!accountId) {
+      return toast.error("Please select an account")
+    }
+
+    const data = values.map((value) => ({
+      ...value,
+      accountId: accountId,
+    }))
+
+    bulkCreateTransaction(data, {
+      onSuccess: () => {
+        onCancelImport()
+      }
+    })
+  }
 
   if (transactionQuery.isLoading) {
     return (
@@ -69,11 +100,14 @@ export default function TransactionsPage() {
 
   if (variant === VARIANTS.IMPORT) {
     return (
-      <ImportCard
-        data={importResults.data}
-        onCancel={onCancelImport}
-        onSubmit={() => {}}
-      />
+      <>
+        <AccountDialog />
+        <ImportCard
+          data={importResults.data}
+          onCancel={onCancelImport}
+          onSubmit={onSubmitImport}
+        />
+      </>
     );
   }
 
