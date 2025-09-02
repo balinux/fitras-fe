@@ -22,39 +22,37 @@ export function formatCurrency(amount: number) {
   }).format(amount);
 }
 
-export function calculatePercentageChange(
-  current: number,
-  previous: number
-) {
+export function calculatePercentageChange(current: number, previous: number) {
   if (previous == 0) {
-    return previous === current ? 0 : 100
+    return previous === current ? 0 : 100;
   }
 
-  return (current - previous) / previous * 100;
+  return ((current - previous) / previous) * 100;
 }
 
 export function fillMissingDays(
   activeDays: {
-    date: Date,
-    income: number,
-    expenses: number
+    date: Date;
+    income: number;
+    expenses: number;
   }[],
   startDate: Date,
-  endDate: Date
+  endDate: Date,
 ) {
-
   // check leng of active day
   if (activeDays.length == 0) {
-    return []
+    return [];
   }
   const allDays = eachDayOfInterval({
     start: startDate,
-    end: endDate
-  })
+    end: endDate,
+  });
 
   // fill all transastion by days
   const transactionByDay = allDays.map((day) => {
-    const activeDay = activeDays.find((activeDay) => isSameDay(activeDay.date, day))
+    const activeDay = activeDays.find((activeDay) =>
+      isSameDay(activeDay.date, day),
+    );
 
     if (activeDay) {
       return activeDay;
@@ -62,10 +60,10 @@ export function fillMissingDays(
       return {
         date: day,
         income: 0,
-        expenses: 0
-      }
+        expenses: 0,
+      };
     }
-  })
+  });
 
   return transactionByDay;
 }

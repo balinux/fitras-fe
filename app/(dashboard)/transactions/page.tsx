@@ -29,7 +29,7 @@ const INITIAL_IMPORT_RESULTS = {
 
 export default function TransactionsPage() {
   // hook for use select account
-  const [AccountDialog, confirm] = useSelectAccount()
+  const [AccountDialog, confirm] = useSelectAccount();
 
   const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
 
@@ -46,30 +46,30 @@ export default function TransactionsPage() {
   const { onOpen } = useNewTransactionStore();
 
   // mutration for bulk transaction
-  const { mutate: bulkCreateTransaction } = useBulkCreateTransaction()
+  const { mutate: bulkCreateTransaction } = useBulkCreateTransaction();
 
   const isDisabled = transactionQuery.isLoading || deleteMutation.isPending;
 
   const onSubmitImport = async (
-    values: typeof transactionSchema.$inferInsert[]
+    values: (typeof transactionSchema.$inferInsert)[],
   ) => {
-    const accountId = await confirm()
+    const accountId = await confirm();
 
     if (!accountId) {
-      return toast.error("Please select an account")
+      return toast.error("Please select an account");
     }
 
     const data = values.map((value) => ({
       ...value,
       accountId: accountId,
-    }))
+    }));
 
     bulkCreateTransaction(data, {
       onSuccess: () => {
-        onCancelImport()
-      }
-    })
-  }
+        onCancelImport();
+      },
+    });
+  };
 
   if (transactionQuery.isLoading) {
     return (

@@ -29,7 +29,7 @@ const routes = app
   .route("/accounts", accounts)
   .route("/categories", categories)
   .route("/transactions", transactions)
-  .route("/summary", summary)
+  .route("/summary", summary);
 
 app.get("/", clerkMiddleware(), (c) => {
   const auth = getAuth(c);
