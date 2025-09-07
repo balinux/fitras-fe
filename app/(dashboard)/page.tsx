@@ -1,23 +1,11 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
-import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
-import useNewAccountStore from "@/features/accounts/hooks/use-new-accout-hook";
+import DataGrid from "@/components/data-grid";
 
 export default function Home() {
-  const { data: accounts, isLoading } = useGetAccounts();
-  const { onOpen } = useNewAccountStore();
 
-  if (isLoading) {
-    return <>Loading . . .</>;
-  }
 
   return (
-    <>
-      <Button onClick={onOpen}>Open</Button>
-      {accounts?.map((account) => (
-        <div key={account.id}>{account.name}</div>
-      ))}
-    </>
+    <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
+      <DataGrid/>
+    </div>
   );
 }
