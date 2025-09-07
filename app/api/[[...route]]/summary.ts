@@ -40,9 +40,9 @@ const app = new Hono().get(
       : defaultFrom;
     const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
 
-    const periodLength = differenceInDays(endDate, startDate);
-    const lastPeriodStart = subDays(endDate, periodLength);
-    const lastPeriodEnd = subDays(endDate, periodLength);
+    const periodLength = differenceInDays(endDate, startDate) + 1;
+    const lastPeriodStart = subDays(startDate, periodLength);
+    const lastPeriodEnd = subDays(startDate, 1);
 
     // function to get financial data period
     async function fetchFinancialData(
