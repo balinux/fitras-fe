@@ -9,6 +9,8 @@ import {
     CartesianGrid,
     YAxis
 } from "recharts";
+import CustomTooltip from "./custom-tooltips";
+
 type Props = {
     data: {
         date: string;
@@ -41,7 +43,7 @@ export default function AreaVariant({ data }: Props) {
                     tickMargin={16}
                 />
                 <YAxis tickLine={false}/>
-                <Tooltip />
+                <Tooltip content={<CustomTooltip />} />
                 <Area
                     type="monotone"
                     dataKey="income"
