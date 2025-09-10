@@ -8,7 +8,6 @@ import {
     ResponsiveContainer,
 } from "recharts";
 
-import { formatPercentage } from "@/lib/utils";
 import CategoryTooltip from "./category-tooltips";
 
 const COLORS = [
