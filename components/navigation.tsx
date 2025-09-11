@@ -44,7 +44,7 @@ export default function Navigation() {
   if (isMobile) {
     return (
       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-        <SheetTrigger>
+        <SheetTrigger asChild>
           <Button
             variant="outline"
             size="sm"
