@@ -5,6 +5,7 @@ import BarVariant from "./bar-variant";
 import LineVariant from "./line-variant";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Skeleton } from "./ui/skeleton";
 
 type Props = {
     data?: {
@@ -67,6 +68,22 @@ export default function Chart({ data = [] }: Props) {
                         {variantType === "line" && <LineVariant data={data} />}
                     </>
                 )}
+            </CardContent>
+        </Card>
+    )
+}
+
+export function ChartLoading() {
+    return (
+        <Card className="border-none drop-shadow-sm">
+            <CardHeader className="flex space-y-2 lg:space-y-0 lg:flex-row lg:items-center justify-between">
+                <Skeleton className="h-8 w-48" />
+                <Skeleton className="h-8 lg:w-[120px] w-full" />
+            </CardHeader>
+            <CardContent>
+                <div className="flex flex-col gap-y-4 item-center justify-center h-[350px] w-full">
+                    <Skeleton className="h-[350px] w-full" />
+                </div>
             </CardContent>
         </Card>
     )
