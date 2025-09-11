@@ -34,10 +34,10 @@ export const useGetSummary = () => {
           value: convertAmountFromMilliUnit(category.value),
         })),
         days: data.days.map((day) => ({
-            ...day,
-            income: convertAmountFromMilliUnit(day.income),
-            expenses: convertAmountFromMilliUnit(day.expenses),
-        }))
+          ...day,
+          income: convertAmountFromMilliUnit(day.income),
+          expenses: convertAmountFromMilliUnit(day.expenses),
+        })),
       };
     },
   });

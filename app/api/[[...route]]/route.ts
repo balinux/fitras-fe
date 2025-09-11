@@ -10,19 +10,6 @@ export const runtime = "edge";
 
 const app = new Hono().basePath("/api");
 
-// // errorn  handler
-// app.onError((err, c) => {
-//   if (err instanceof HTTPException) {
-//     return err.getResponse();
-//   }
-//   return c.json(
-//     {
-//       error: "internal server error",
-//     },
-//     500,
-//   );
-// });
-
 //  define route
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const routes = app

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { zValidator } from "@hono/zod-validator";
-import z, { number } from "zod";
+import z from "zod";
 import { differenceInDays, parse, subDays } from "date-fns";
 import { db } from "@/db/drizzle";
 import { and, desc, eq, gte, lt, lte, sql, sum } from "drizzle-orm";

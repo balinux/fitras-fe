@@ -72,7 +72,7 @@ export function fillMissingDays(
 type Period = {
   from: string | Date | undefined;
   to: string | Date | undefined;
-}
+};
 
 // format date range
 export function formatDateRange(period?: Period) {
@@ -93,17 +93,16 @@ export function formatDateRange(period?: Period) {
 export function formatPercentage(
   value: number,
   options: { addPrefix?: boolean } = {
-    addPrefix: false
-  }
+    addPrefix: false,
+  },
 ) {
-
-  const result = new Intl.NumberFormat('en-US', {
-    style: "percent"
+  const result = new Intl.NumberFormat("en-US", {
+    style: "percent",
   }).format(value / 100);
 
   if (options.addPrefix && value > 0) {
-    return `+${result}`
+    return `+${result}`;
   }
 
-  return result
+  return result;
 }
