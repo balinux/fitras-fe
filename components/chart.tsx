@@ -1,3 +1,5 @@
+"use client";
+
 import { AreaChart, BarChart, FileSearch, LineChart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import AreaVariant from "@/components/area-variant";

@@ -1,4 +1,6 @@
 import Header from "@/components/header";
+import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
 
 export default function DashboardLayout({
   children,
@@ -8,7 +10,13 @@ export default function DashboardLayout({
   return (
     <>
       <Header />
-      <main className="px-3 lg:px-14">{children}</main>
+      <main className="px-3 lg:px-14">
+        <Suspense
+          fallback={<Loader2 className="size-6 animate-spin text-slate-400" />}
+        >
+          {children}
+        </Suspense>
+      </main>
     </>
   );
 }
