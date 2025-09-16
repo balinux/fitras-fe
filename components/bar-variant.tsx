@@ -2,8 +2,6 @@ import { format } from "date-fns";
 import {
   Tooltip,
   XAxis,
-  AreaChart,
-  Area,
   ResponsiveContainer,
   CartesianGrid,
   YAxis,

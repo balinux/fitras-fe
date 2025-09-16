@@ -1,17 +1,10 @@
 "use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { Select, SelectItem } from "./ui/select";
-import {
-    SelectContent,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { format, subDays } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { ChevronDown } from "lucide-react";
 import qs from "query-string";
-import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Button } from "./ui/button";
 import { formatDateRange } from "@/lib/utils";

@@ -4,7 +4,7 @@ import { zValidator } from "@hono/zod-validator";
 import z from "zod";
 import { differenceInDays, parse, subDays } from "date-fns";
 import { db } from "@/db/drizzle";
-import { and, desc, eq, gte, lt, lte, sql, sum } from "drizzle-orm";
+import { and, desc, eq, gte, lt, lte, sql } from "drizzle-orm";
 import { accounts, categories, transactions } from "@/db/schema";
 import { calculatePercentageChange, fillMissingDays } from "@/lib/utils";
 
