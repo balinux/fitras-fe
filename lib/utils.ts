@@ -23,7 +23,6 @@ export function formatCurrency(amount: number) {
 }
 
 export function calculatePercentageChange(current: number, previous: number) {
-  console.log("current: ", current, "previous: ", previous);
   if (previous === 0) {
     return previous === current ? 0 : 100;
   }

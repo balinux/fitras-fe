@@ -88,7 +88,6 @@ const app = new Hono().get(
       lastPeriodEnd,
     );
 
-    console.log("currentPeriod: ", currentPeriod, "lastPeriod: ", lastPeriod);
 
     const incomeChange = calculatePercentageChange(
       currentPeriod.income,
@@ -125,7 +124,6 @@ const app = new Hono().get(
       .groupBy(categories.name)
       .orderBy(desc(sql`SUM(ABS(${transactions.amount}))`));
 
-    console.log(category);
 
     // retunr top category
     const topCategories = category.slice(0, 3);

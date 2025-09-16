@@ -29,7 +29,6 @@ export const useBulkDeleteTransaction = () => {
       queryClient.invalidateQueries({ queryKey: ["summary"] });
     },
     onError: (error) => {
-      console.log(error);
       toast.error("Failed to bulk delete transaction");
     },
   });
