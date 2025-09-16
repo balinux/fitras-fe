@@ -4,6 +4,7 @@ import Navigation from "./navigation";
 import { Skeleton } from "./ui/skeleton";
 import WelcomeMessage from "./welcome-message";
 import Filters from "./filters";
+import { Suspense } from "react";
 
 export default function Header() {
   return (
@@ -22,8 +23,19 @@ export default function Header() {
           </ClerkLoading>
         </div>
         <WelcomeMessage />
-        <Filters />
+        <Suspense fallback={<FiltersLoading />}>
+          <Filters />
+        </Suspense>
       </div>
     </header>
   );
 }
+
+const FiltersLoading = () => {
+  return (
+    <div className="flex flex-col lg:flex-row items-center gap-y-2 lg:gap-y-0 lg:gap-x-2">
+      <Skeleton className="lg:w-[120px] w-full h-9 rounded-md" />
+      <Skeleton className="lg:w-[120px] w-full h-9 rounded-md" />
+    </div>
+  );
+};

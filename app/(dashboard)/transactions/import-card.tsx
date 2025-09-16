@@ -22,7 +22,6 @@ type Props = {
 };
 
 export default function ImportCard({ onCancel, onSubmit, data }: Props) {
-  // console.log("data from import card: ",data[0])
 
   // state for selected columns
   const [selectedColumns, setSelectedColumns] = useState<selectedColumnsState>(
@@ -77,21 +76,16 @@ export default function ImportCard({ onCancel, onSubmit, data }: Props) {
         })
         .filter((row) => row.length > 0),
     };
-    // return mappedData;
-    // console.log("mappedData: ", mappedData)
 
     const arrayOfData = mappedData.body.map((row) => {
       return row.reduce((acc: any, cell, index) => {
         const header = mappedData.headers[index];
-        // console.log("header: ", header)
         if (header !== null) {
           acc[header] = cell;
         }
-        // console.log("acc: ", acc)
         return acc;
       }, {});
     });
-    // console.log("arrayOfData: ", arrayOfData)
 
     // format data
     const formattedData = arrayOfData.map((data) => ({
@@ -99,7 +93,6 @@ export default function ImportCard({ onCancel, onSubmit, data }: Props) {
       amount: convertAmountTomiliUnit(data.amount),
       date: format(parse(data.date, dateFormat, new Date()), outputFormat),
     }));
-    // console.log("formattedData: ", formattedData)
     onSubmit(formattedData);
   };
   return (

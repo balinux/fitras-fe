@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Plus } from "lucide-react";
@@ -43,30 +44,34 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className=" max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
-      <Card className="border-none drop-shadow-sm ">
-        <CardHeader className="gap-y-2 lg:flex lg:flex-row lg:items-center lg:justify-between ">
-          <CardTitle className="text-xl line-clamp-1 ">
-            Categories Page
-          </CardTitle>
-          <Button className="w-full lg:w-auto" onClick={onOpen}>
-            <Plus className="mr-2 h-4 w-4" />
-            Add new
-          </Button>
-        </CardHeader>
-        <CardContent>
-          <DataTable
-            columns={columns}
-            data={categories}
-            filterKey="name"
-            onDelete={(row) => {
-              const ids = row.map((r) => r.original.id);
-              deleteMutation.mutate({ ids });
-            }}
-            disabled={isDisabled}
-          />
-        </CardContent>
-      </Card>
-    </div>
+    <Suspense
+      fallback={<Loader2 className="size-6 animate-spin text-slate-400" />}
+    >
+      <div className=" max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
+        <Card className="border-none drop-shadow-sm ">
+          <CardHeader className="gap-y-2 lg:flex lg:flex-row lg:items-center lg:justify-between ">
+            <CardTitle className="text-xl line-clamp-1 ">
+              Categories Page
+            </CardTitle>
+            <Button className="w-full lg:w-auto" onClick={onOpen}>
+              <Plus className="mr-2 h-4 w-4" />
+              Add new
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <DataTable
+              columns={columns}
+              data={categories}
+              filterKey="name"
+              onDelete={(row) => {
+                const ids = row.map((r) => r.original.id);
+                deleteMutation.mutate({ ids });
+              }}
+              disabled={isDisabled}
+            />
+          </CardContent>
+        </Card>
+      </div>
+    </Suspense>
   );
 }

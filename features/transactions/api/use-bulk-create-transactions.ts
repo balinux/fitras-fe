@@ -29,7 +29,6 @@ export const useBulkCreateTransaction = () => {
       queryClient.invalidateQueries({ queryKey: ["summary"] });
     },
     onError: (error) => {
-      console.log(error);
       toast.error("Failed to bulk create transaction");
     },
   });

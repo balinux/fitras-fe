@@ -24,7 +24,6 @@ export const useCreateTransaction = () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
     },
     onError: (error) => {
-      console.log(error);
       toast.error("Failed to create transaction");
     },
   });
