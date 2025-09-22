@@ -33,11 +33,11 @@ export default function Navigation() {
   // define route navigation
   const routes: Route[] = [
     { name: "Home", href: "/" },
-    { name: "Overview", href: "/overview" },
+    // { name: "Overview", href: "/overview" },
     { name: "Transactions", href: "/transactions" },
     { name: "Accounts", href: "/accounts" },
     { name: "Category", href: "/categories" },
-    { name: "Settings", href: "/settings" },
+    // { name: "Settings", href: "/settings" },
   ];
 
   // check if mobile
