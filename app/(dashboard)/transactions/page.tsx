@@ -123,7 +123,7 @@ export default function TransactionsPage() {
             <CardTitle className="text-xl line-clamp-1 ">
               Transactions history
             </CardTitle>
-            <div className="flex flex-col md:flex-row gap-2 items-center">
+            <div className="flex flex-col lg:flex-row gap-2 items-center">
               <Button className="w-full lg:w-auto" onClick={onOpen}>
                 <Plus className="mr-2 h-4 w-4" />
                 Add new
