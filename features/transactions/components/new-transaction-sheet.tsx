@@ -5,10 +5,8 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetClose,
 } from "@/components/ui/sheet";
 import useNewTransactionStore from "@/features/transactions/hooks/use-new-transaction-hook";
 // import TransactionForm from "@/features/transactions/components/transaction-form";
@@ -101,7 +99,7 @@ export default function NewTransactionSheet() {
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent side="right" className="space-y-4">
+      <SheetContent side="right" className=" flex flex-col max-h-screen overflow-y-auto space-y-4 ">
         <SheetHeader>
           <SheetTitle>New Transaction</SheetTitle>
           <SheetDescription>
@@ -129,12 +127,7 @@ export default function NewTransactionSheet() {
           />
         )}
 
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </SheetClose>
-          <Button>Continue</Button>
-        </SheetFooter>
+       
       </SheetContent>
     </Sheet>
   );
