@@ -19,6 +19,7 @@ type Props = {
   }[];
 };
 export default function PieVariant({ data }: Props) {
+  console.log("data: ", data);
   return (
     <ResponsiveContainer width="100%" height={350}>
       <PieChart>
@@ -27,7 +28,9 @@ export default function PieVariant({ data }: Props) {
           verticalAlign="bottom"
           align="right"
           iconType="circle"
-          content={({ payload }: any) => (
+          content={({ payload }: any) => {
+            return (
+              console.log("payload: ", payload),
             <ul className="flex flex-col space-x-2">
               {payload.map((entry: any, index: number) => (
                 <li
@@ -47,7 +50,7 @@ export default function PieVariant({ data }: Props) {
                 </li>
               ))}
             </ul>
-          )}
+          )}}
         />
         <Tooltip content={<CategoryTooltip />} />
         <Pie

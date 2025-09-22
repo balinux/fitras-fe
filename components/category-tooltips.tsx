@@ -3,12 +3,13 @@ import { formatCurrency } from "@/lib/utils";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export default function CategoryTooltip({ active, payload }: any) {
-  if (!active) {
+  if (!active || !payload || payload.length === 0 || !payload[0]) {
     return null;
   }
 
-  const name = payload[0].payload.name;
-  const value = payload[0].value;
+
+  const name = payload[0]?.payload?.name ?? "unknown";
+  const value = payload[0]?.value ?? 0;
 
   return (
     <div className="rounded-sm bg-white shadow-sm border overflow-hidden">
@@ -21,7 +22,7 @@ export default function CategoryTooltip({ active, payload }: any) {
           <div className="flex items-center gap-x-2">
             <div className="size-1.5 rounded-full bg-rose-500"></div>
             <p className="text-sm font-medium">Expenses</p>
-          </div>
+          </div>  
           <p className="text-sm text-right font-medium">
             {formatCurrency(value)}
           </p>
