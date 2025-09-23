@@ -183,12 +183,12 @@ export default function EditTransactionSheet() {
             />
           )}
 
-          <SheetFooter>
+          {/* <SheetFooter>
             <SheetClose asChild>
               <Button variant="outline">Cancel</Button>
             </SheetClose>
             <Button>Continue</Button>
-          </SheetFooter>
+          </SheetFooter> */}
         </SheetContent>
       </Sheet>
     </>
