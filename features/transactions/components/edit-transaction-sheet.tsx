@@ -158,7 +158,7 @@ export default function EditTransactionSheet() {
     <>
       <ConfirmDelete />
       <Sheet open={isOpen} onOpenChange={onClose}>
-        <SheetContent side="right" className="space-y-4">
+        <SheetContent side="right" className="flex flex-col min-h-screen overflow-y-auto space-y-4">
           <SheetHeader>
             <SheetTitle>Edit Transaction</SheetTitle>
             <SheetDescription>Edit an existing transaction</SheetDescription>
