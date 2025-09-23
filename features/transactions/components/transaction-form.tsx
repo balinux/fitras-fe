@@ -232,7 +232,7 @@ export default function TransactionForm({
           onClick={() => form.handleSubmit(handleSubmit)}
         >
           {disabled && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {id ? "Save Changes" : "Create Account"}
+          {id ? "Save Changes" : "Create Transaction"}
         </Button>
 
         {!!id && (
