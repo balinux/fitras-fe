@@ -1,14 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetClose,
 } from "@/components/ui/sheet";
 import useEditCategoryStore from "@/features/categories/hooks/use-edit-category-hook";
 import CategoryForm from "@/features/categories/components/category-form";
@@ -104,13 +101,6 @@ export default function EditCategorySheet() {
               onDelete={onDelete}
             />
           )}
-
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </SheetClose>
-            <Button>Continue</Button>
-          </SheetFooter>
         </SheetContent>
       </Sheet>
     </>

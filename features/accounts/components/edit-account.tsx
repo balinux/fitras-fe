@@ -1,14 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetClose,
 } from "@/components/ui/sheet";
 import useEditAccountStore from "@/features/accounts/hooks/use-edit-account-hook";
 import AccountForm from "@/features/accounts/components/account-form";
@@ -104,13 +101,6 @@ export default function EditAccountSheet() {
               onDelete={onDelete}
             />
           )}
-
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </SheetClose>
-            <Button>Continue</Button>
-          </SheetFooter>
         </SheetContent>
       </Sheet>
     </>

@@ -1,14 +1,11 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetClose,
 } from "@/components/ui/sheet";
 import useNewCategoryStore from "@/features/categories/hooks/use-new-category-hook";
 import CategoryForm from "@/features/categories/components/category-form";
@@ -51,12 +48,6 @@ export default function NewCategorySheet() {
           disabled={mutation.isPending}
           defaultValue={{ name: "" }}
         />
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </SheetClose>
-          <Button>Continue</Button>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );
