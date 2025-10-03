@@ -73,6 +73,16 @@ type Period = {
   to: string | Date | undefined;
 };
 
+// format date
+export function formatDateFromIsoString(isoString: string) {
+  const date = new Date(isoString);
+  return new Intl.DateTimeFormat("id-ID", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(date);
+}
+
 // format date range
 export function formatDateRange(period?: Period) {
   const defaultTo = new Date();
