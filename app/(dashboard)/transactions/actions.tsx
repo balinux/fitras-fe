@@ -11,12 +11,15 @@ import { useDeleteTransaction } from "@/features/transactions/api/use-delete-tra
 import useEditTransactionStore from "@/features/transactions/hooks/use-edit-transaction-store";
 import { useConfirm } from "@/hooks/use-confirm";
 import { Edit, MoreHorizontal, Trash2 } from "lucide-react";
+// import { useRouter } from "next/navigation";
 
 interface ActionProps {
   id: string;
 }
 
 export default function Actions({ id }: ActionProps) {
+  // const router = useRouter();
+
   // use edit account hook and pass id to it
   const { onOpen } = useEditTransactionStore();
 
@@ -37,6 +40,12 @@ export default function Actions({ id }: ActionProps) {
     }
   };
 
+  const onInvoice = () => {
+    // router.push(`/invoice/${id}/pdf`);
+    window.open(`/invoice/${id}/pdf`, "_blank");
+  };  
+
+
   return (
     <>
       <ConfirmDelete />
@@ -55,6 +64,16 @@ export default function Actions({ id }: ActionProps) {
             <Edit className="size-4 mr-2" />
             Edit
           </DropdownMenuItem>
+
+          <DropdownMenuItem
+            disabled={false}
+            onClick={() => onInvoice()}
+            className="flex gap-2"
+          >
+            <Edit className="size-4 mr-2" />
+            Invoice
+          </DropdownMenuItem>
+
           <DropdownMenuItem
             variant="destructive"
             disabled={false}
