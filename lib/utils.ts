@@ -15,9 +15,9 @@ export function convertAmountFromMilliUnit(amount: number) {
 }
 
 export function formatCurrency(amount: number) {
-  return Intl.NumberFormat("en-US", {
+  return Intl.NumberFormat("id-ID", {
     style: "currency",
-    currency: "USD",
+    currency: "IDR",
     minimumFractionDigits: 2,
   }).format(amount);
 }
